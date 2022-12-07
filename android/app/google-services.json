@@ -1,0 +1,82 @@
+{
+  "project_info": {
+    "project_number": "562971056505",
+    "project_id": "seminarapp-a2f3f",
+    "storage_bucket": "seminarapp-a2f3f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:562971056505:android:b85a018a566f7e9d5d77a8",
+        "android_client_info": {
+          "package_name": "com.example.seminar_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "562971056505-442m61o5hhrhue4pcdrlul0ovjj1t8qb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAWxA9NCDw-LMB1jMNdUNJiCzjwHrRvNGE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "562971056505-442m61o5hhrhue4pcdrlul0ovjj1t8qb.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "562971056505-h72f1bprh2qt8rf6r44eqb22mj1h27lu.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.seminarApp"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:562971056505:android:f0ce21c692b91a875d77a8",
+        "android_client_info": {
+          "package_name": "com.zulfikar.seminar"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "562971056505-442m61o5hhrhue4pcdrlul0ovjj1t8qb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAWxA9NCDw-LMB1jMNdUNJiCzjwHrRvNGE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "562971056505-442m61o5hhrhue4pcdrlul0ovjj1t8qb.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "562971056505-h72f1bprh2qt8rf6r44eqb22mj1h27lu.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.seminarApp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
