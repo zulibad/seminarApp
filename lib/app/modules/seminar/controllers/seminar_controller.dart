@@ -12,9 +12,8 @@ class SeminarController extends GetxController {
     yield* firestore.collection("peserta").doc(uid).snapshots();
   }
 
-  Future<QuerySnapshot<Object?>> getSeminar() async {
+  Future<QuerySnapshot<Object?>> streamSeminar() async {
     CollectionReference seminars = firestore.collection("seminar");
-
     return seminars.get();
   }
 }

@@ -26,6 +26,7 @@ class HomeView extends GetView<HomeController> {
               child: CircularProgressIndicator(),
             );
           }
+
           if (snapshot.hasData) {
             Map<String, dynamic> user = snapshot.data!.data()!;
             String defaultImage =

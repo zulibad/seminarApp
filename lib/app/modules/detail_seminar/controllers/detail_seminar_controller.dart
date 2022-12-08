@@ -1,20 +1,36 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:get/get.dart';
 
 class DetailSeminarController extends GetxController {
-  //TODO: Implement DetailSeminarController
+  String scanQr = '';
 
-  final count = 0.obs;
-  @override
   void onInit() {
     super.onInit();
   }
 
-  @override
   void onReady() {
     super.onReady();
   }
 
-  @override
-  void onClose() {}
-  void increment() => count.value++;
+  void onClose() {
+    super.onClose();
+  }
+
+  Future<void> scanQcode() async {
+    try {
+      scanQr = await FlutterBarcodeScanner.scanBarcode(
+        '#ff6666',
+        'Cancel',
+        true,
+        ScanMode.QR,
+      );
+
+      Get.snackbar("Result", "QR Code" + scanQr,
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.green,
+          colorText: Colors.white);
+    } on PlatformException {}
+  }
 }

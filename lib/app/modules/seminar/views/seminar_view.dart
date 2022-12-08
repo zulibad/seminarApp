@@ -38,10 +38,17 @@ class SeminarView extends GetView<SeminarController> {
         ],
       ),
       body: FutureBuilder<QuerySnapshot<Object?>>(
-        future: controller.getSeminar(),
+        future: controller.streamSeminar(),
         builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.done) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          print(snapshot.data);
+          if (snapshot.hasData) {
             var seminar = snapshot.data!.docs;
+
             return ListView.builder(
               padding: EdgeInsets.all(20),
               shrinkWrap: true,
@@ -49,7 +56,10 @@ class SeminarView extends GetView<SeminarController> {
               itemCount: seminar.length,
               itemBuilder: (context, index) {
                 return InkWell(
-                  onTap: () => Get.toNamed(Routes.DETAIL_SEMINAR),
+                  onTap: () => Get.toNamed(
+                    Routes.DETAIL_SEMINAR,
+                    arguments: seminar[index].data(),
+                  ),
                   child: Container(
                     margin: EdgeInsets.only(bottom: 20),
                     padding: EdgeInsets.all(20),
@@ -94,10 +104,11 @@ class SeminarView extends GetView<SeminarController> {
                 );
               },
             );
+          } else {
+            return Center(
+              child: Text("tidak dapat mengambil database"),
+            );
           }
-          return Center(
-            child: CircularProgressIndicator(),
-          );
         },
       ),
       bottomNavigationBar: ConvexAppBar(
