@@ -80,25 +80,38 @@ class HomeView extends GetView<HomeController> {
                         borderRadius: BorderRadius.circular(15),
                         color: Colors.grey[300],
                       ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Total Undangan",
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 15,
-                            ),
-                          ),
-                          SizedBox(height: 10),
-                          Text(
-                            "5",
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 50,
-                            ),
-                          ),
-                        ],
+                      child: StreamBuilder(
+                        stream: controller.streamUndangan(),
+                        builder: (context, snapU) {
+                          if (snapU.connectionState ==
+                              ConnectionState.waiting) {
+                            return Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          }
+                          Map<String, dynamic> Und = snapU.data!.data()!;
+                          print(Und.length);
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Total Undangan",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 15,
+                                ),
+                              ),
+                              SizedBox(height: 10),
+                              Text(
+                                "${Und.length}",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 50,
+                                ),
+                              ),
+                            ],
+                          );
+                        },
                       ),
                     ),
                     SizedBox(width: 10),
@@ -220,7 +233,7 @@ class HomeView extends GetView<HomeController> {
         items: [
           TabItem(icon: Icons.home, title: 'Home'),
           TabItem(icon: Icons.insert_invitation, title: 'Seminar'),
-          TabItem(icon: Icons.people, title: 'Profile'),
+          TabItem(icon: Icons.person, title: 'Profile'),
         ],
         initialActiveIndex: pageC.pageIndex.value,
         onTap: (int i) => pageC.pindahHalaman(i),

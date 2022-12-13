@@ -94,6 +94,12 @@ class ProfileView extends GetView<ProfileController> {
                     leading: Icon(Icons.person_add),
                     title: Text("Tambah Akun Peserta"),
                   ),
+                if (user["role"] == "admin")
+                  ListTile(
+                    onTap: () => Get.toNamed(Routes.DAFTAR_PESERTA),
+                    leading: Icon(Icons.people),
+                    title: Text("Daftar Peserta"),
+                  ),
                 ListTile(
                   onTap: () => controller.logout(),
                   leading: Icon(Icons.logout_rounded),
@@ -113,7 +119,7 @@ class ProfileView extends GetView<ProfileController> {
         items: [
           TabItem(icon: Icons.home, title: 'Home'),
           TabItem(icon: Icons.insert_invitation, title: 'Seminar'),
-          TabItem(icon: Icons.people, title: 'Profile'),
+          TabItem(icon: Icons.person, title: 'Profile'),
         ],
         initialActiveIndex: pageC.pageIndex.value,
         onTap: (int i) => pageC.pindahHalaman(i),

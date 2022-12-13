@@ -1,40 +1,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
-import 'package:seminar/app/controllers/page_index_controller.dart';
-import 'package:seminar/app/routes/app_pages.dart';
+import '../controllers/daftar_kehadiran_controller.dart';
 
-import '../controllers/seminar_controller.dart';
-
-class SeminarView extends GetView<SeminarController> {
-  final pageC = Get.find<PageIndexController>();
+class DaftarKehadiranView extends GetView<DaftarKehadiranController> {
+  // final seminar = Get.arguments;
   @override
   Widget build(BuildContext context) {
+    // print(seminar['id_s']);
     return Scaffold(
       appBar: AppBar(
-        title: Text('Jadwal Seminar'),
+        title: Text('DaftarKehadiranView'),
         centerTitle: true,
-        actions: [
-          StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
-            stream: controller.streamRole(),
-            builder: (context, snap) {
-              if (snap.connectionState == ConnectionState.waiting) {
-                return SizedBox();
-              }
-              String role = snap.data!.data()!["role"];
-              if (role == "admin") {
-                return IconButton(
-                  onPressed: () => Get.toNamed(Routes.ADD_SEMINAR),
-                  icon: Icon(Icons.insert_invitation_rounded),
-                );
-              } else {
-                return SizedBox();
-              }
-            },
-          ),
-        ],
       ),
       body: FutureBuilder<QuerySnapshot<Object?>>(
         future: controller.streamSeminar(),
@@ -46,19 +23,16 @@ class SeminarView extends GetView<SeminarController> {
           }
 
           if (snapshot.hasData) {
-            var seminar = snapshot.data!.docs;
+            var hadir = snapshot.data!.docs;
 
             return ListView.builder(
               padding: EdgeInsets.all(20),
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),
-              itemCount: seminar.length,
+              itemCount: hadir.length,
               itemBuilder: (context, index) {
                 return InkWell(
-                  onTap: () => Get.toNamed(
-                    Routes.DETAIL_SEMINAR,
-                    arguments: seminar[index].data(),
-                  ),
+                  onTap: () {},
                   child: Container(
                     margin: EdgeInsets.only(bottom: 20),
                     padding: EdgeInsets.all(20),
@@ -73,13 +47,13 @@ class SeminarView extends GetView<SeminarController> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              "TEMA SEMINAR",
+                              "${(hadir[index].data() as Map<String, dynamic>)["name"]}",
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
                             Text(
-                              "${(seminar[index].data() as Map<String, dynamic>)["date"]}",
+                              "${(hadir[index].data() as Map<String, dynamic>)["date"]}",
                               style: TextStyle(
                                   // fontWeight: FontWeight.bold,
                                   ),
@@ -90,10 +64,10 @@ class SeminarView extends GetView<SeminarController> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              "${(seminar[index].data() as Map<String, dynamic>)["tema"]}",
+                              "${(hadir[index].data() as Map<String, dynamic>)["email"]}",
                             ),
                             Text(
-                              "${(seminar[index].data() as Map<String, dynamic>)["time"]}",
+                              "${(hadir[index].data() as Map<String, dynamic>)["time"]}",
                             ),
                           ],
                         ),
@@ -109,16 +83,6 @@ class SeminarView extends GetView<SeminarController> {
             );
           }
         },
-      ),
-      bottomNavigationBar: ConvexAppBar(
-        style: TabStyle.fixedCircle,
-        items: [
-          TabItem(icon: Icons.home, title: 'Home'),
-          TabItem(icon: Icons.insert_invitation, title: 'Seminar'),
-          TabItem(icon: Icons.person, title: 'Profile'),
-        ],
-        initialActiveIndex: pageC.pageIndex.value,
-        onTap: (int i) => pageC.pindahHalaman(i),
       ),
     );
   }

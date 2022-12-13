@@ -16,6 +16,13 @@ class AddSeminarView extends GetView<AddSeminarController> {
         children: [
           TextField(
             autocorrect: false,
+            controller: controller.idsC,
+            decoration: InputDecoration(
+                labelText: "ID Seminar", border: OutlineInputBorder()),
+          ),
+          SizedBox(height: 20),
+          TextField(
+            autocorrect: false,
             controller: controller.temaC,
             decoration: InputDecoration(
                 labelText: "Tema Seminar", border: OutlineInputBorder()),
@@ -70,14 +77,11 @@ class AddSeminarView extends GetView<AddSeminarController> {
               ),
               onTap: () async {
                 TimeOfDay? pilihWaktu = await showTimePicker(
-                  initialTime: TimeOfDay.now(),
                   context: context,
+                  initialTime: TimeOfDay.now(),
                 );
                 if (pilihWaktu != null) {
-                  DateTime parsedTime = DateFormat.jm()
-                      .parse(pilihWaktu.format(context).toString());
-                  String formattedTime = DateFormat('HH:mm').format(parsedTime);
-                  controller.waktuC.text = formattedTime;
+                  controller.waktuC.text = pilihWaktu.format(context);
                 }
               },
             ),

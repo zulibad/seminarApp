@@ -12,4 +12,8 @@ class HomeController extends GetxController {
 
     yield* firestore.collection("peserta").doc(uid).snapshots();
   }
+
+  Stream<DocumentSnapshot<Map<String, dynamic>>> streamUndangan() async* {
+    await firestore.collection("seminar").doc().snapshots();
+  }
 }

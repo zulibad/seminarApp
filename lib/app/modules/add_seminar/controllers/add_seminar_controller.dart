@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AddSeminarController extends GetxController {
   TextEditingController temaC = TextEditingController();
+  TextEditingController idsC = TextEditingController();
   TextEditingController pembicaraC = TextEditingController();
   TextEditingController lokasiC = TextEditingController();
   TextEditingController tanggalC = TextEditingController();
@@ -14,13 +15,15 @@ class AddSeminarController extends GetxController {
   void addSeminar() async {
     CollectionReference seminars = firestore.collection("seminar");
 
-    if (temaC.text.isNotEmpty &&
+    if (idsC.text.isNotEmpty &&
+        temaC.text.isNotEmpty &&
         pembicaraC.text.isNotEmpty &&
         tanggalC.text.isNotEmpty &&
         lokasiC.text.isNotEmpty &&
         waktuC.text.isNotEmpty) {
       try {
-        await seminars.add({
+        await seminars.doc(idsC.text).set({
+          "id_s": idsC.text,
           "tema": temaC.text,
           "pembicara": pembicaraC.text,
           "lokasi": lokasiC.text,
