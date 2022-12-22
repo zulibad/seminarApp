@@ -26,7 +26,6 @@ class HomeView extends GetView<HomeController> {
               child: CircularProgressIndicator(),
             );
           }
-
           if (snapshot.hasData) {
             Map<String, dynamic> user = snapshot.data!.data()!;
             String defaultImage =
@@ -80,8 +79,8 @@ class HomeView extends GetView<HomeController> {
                         borderRadius: BorderRadius.circular(15),
                         color: Colors.grey[300],
                       ),
-                      child: StreamBuilder(
-                        stream: controller.streamUndangan(),
+                      child: FutureBuilder<QuerySnapshot<Object?>>(
+                        future: controller.undangan(),
                         builder: (context, snapU) {
                           if (snapU.connectionState ==
                               ConnectionState.waiting) {
@@ -89,64 +88,87 @@ class HomeView extends GetView<HomeController> {
                               child: CircularProgressIndicator(),
                             );
                           }
-                          Map<String, dynamic> Und = snapU.data!.data()!;
-                          print(Und.length);
-                          return Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Total Undangan",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 15,
+                          if (snapU.hasData) {
+                            var Und = snapU.data!;
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Total Undangan",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 15,
+                                  ),
                                 ),
-                              ),
-                              SizedBox(height: 10),
-                              Text(
-                                "${Und.length}",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 50,
+                                SizedBox(height: 10),
+                                Text(
+                                  "${Und.docs.length}",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 50,
+                                  ),
                                 ),
-                              ),
-                            ],
-                          );
+                              ],
+                            );
+                          } else {
+                            return Center(
+                              child: Text("eror"),
+                            );
+                          }
                         },
                       ),
                     ),
                     SizedBox(width: 10),
-                    Column(
-                      children: [
-                        Container(
-                          padding: EdgeInsets.all(10),
-                          width: 150,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15),
-                            color: Colors.grey[300],
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Menghadiri",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 15,
+                    FutureBuilder(
+                        future: controller.hadir(),
+                        builder: (context, snapH) {
+                          if (snapH.connectionState ==
+                              ConnectionState.waiting) {
+                            return Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          }
+                          if (snapH.hasData) {
+                            var hdr = snapH.data!;
+                            return Column(
+                              children: [
+                                Container(
+                                  padding: EdgeInsets.all(10),
+                                  width: 150,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(15),
+                                    color: Colors.grey[300],
+                                  ),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "Menghadiri",
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 15,
+                                        ),
+                                      ),
+                                      SizedBox(height: 10),
+                                      Text(
+                                        "${hdr.docs.length}",
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 50,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                              ),
-                              SizedBox(height: 10),
-                              Text(
-                                "4",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 50,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
+                              ],
+                            );
+                          } else {
+                            return Center(
+                              child: Text("eror"),
+                            );
+                          }
+                        }),
                   ],
                 ),
                 SizedBox(height: 20),
@@ -179,44 +201,60 @@ class HomeView extends GetView<HomeController> {
                   thickness: 2,
                 ),
                 SizedBox(height: 10),
-                ListView.builder(
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  itemCount: 5,
-                  itemBuilder: (context, index) {
-                    return Container(
-                      margin: EdgeInsets.only(bottom: 20),
-                      padding: EdgeInsets.all(20),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        color: Colors.grey[200],
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "TANGGAL",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              Text(
-                                "${DateFormat.jms().format(DateTime.now())}",
-                                style: TextStyle(
-                                    // fontWeight: FontWeight.bold,
+                FutureBuilder(
+                  future: controller.hadir(),
+                  builder: (context, snapR) {
+                    if (snapR.connectionState == ConnectionState.waiting) {
+                      return Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
+                    if (snapR == null) {
+                      return Center(child: Text("belum ada riwayat"));
+                    } else {
+                      var riw = snapR.data!.docs;
+                      return ListView.builder(
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+                        itemCount: riw.length,
+                        itemBuilder: (context, index) {
+                          return Container(
+                            margin: EdgeInsets.only(bottom: 20),
+                            padding: EdgeInsets.all(20),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              color: Colors.grey[200],
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      "${(riw[index].data() as Map<String, dynamic>)["name"]}",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                     ),
-                              ),
-                            ],
-                          ),
-                          Text(
-                            "${DateFormat.yMMMEd().format(DateTime.now())}",
-                          ),
-                        ],
-                      ),
-                    );
+                                    Text(
+                                      "${(riw[index].data() as Map<String, dynamic>)["time"]}",
+                                      style: TextStyle(
+                                          // fontWeight: FontWeight.bold,
+                                          ),
+                                    ),
+                                  ],
+                                ),
+                                Text(
+                                  "${(riw[index].data() as Map<String, dynamic>)["date"]}",
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      );
+                    }
                   },
                 ),
               ],

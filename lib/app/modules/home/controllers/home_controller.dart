@@ -13,7 +13,16 @@ class HomeController extends GetxController {
     yield* firestore.collection("peserta").doc(uid).snapshots();
   }
 
-  Stream<DocumentSnapshot<Map<String, dynamic>>> streamUndangan() async* {
-    await firestore.collection("seminar").doc().snapshots();
+  Future<QuerySnapshot<Object?>> undangan() async {
+    CollectionReference und = firestore.collection("seminar");
+    return und.get();
+  }
+
+  Future<QuerySnapshot<Object?>> hadir() async {
+    String uid = auth.currentUser!.uid;
+
+    CollectionReference hdr =
+        firestore.collection("peserta").doc(uid).collection("seminar");
+    return hdr.get();
   }
 }

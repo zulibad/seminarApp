@@ -14,49 +14,52 @@ class LoginView extends GetView<LoginController> {
         // title: Text('Login'),
         centerTitle: true,
       ),
-      body: ListView(
-        padding: EdgeInsets.all(30),
-        children: [
-          CircleAvatar(
-            radius: 80,
-            child: Center(child: Text("LOGO")),
-          ),
-          SizedBox(height: 30),
-          TextField(
-            autocorrect: false,
-            controller: controller.emailC,
-            decoration: InputDecoration(
-              labelText: "Email",
-              border: OutlineInputBorder(),
+      body: Container(
+        color: Colors.white,
+        child: ListView(
+          padding: EdgeInsets.all(30),
+          children: [
+            CircleAvatar(
+              radius: 80,
+              child: Center(child: Text("LOGO")),
             ),
-          ),
-          SizedBox(height: 20),
-          TextField(
-            autocorrect: false,
-            obscureText: true,
-            controller: controller.passC,
-            decoration: InputDecoration(
-              labelText: "Password",
-              border: OutlineInputBorder(),
+            SizedBox(height: 30),
+            TextField(
+              autocorrect: false,
+              controller: controller.emailC,
+              decoration: InputDecoration(
+                labelText: "Email",
+                border: OutlineInputBorder(),
+              ),
             ),
-          ),
-          SizedBox(height: 30),
-          //karena memantau perubahan maka dibungkus obx
-          Obx(
-            () => ElevatedButton(
-              onPressed: () async {
-                if (controller.isLoading.isFalse) {
-                  await controller.login();
-                }
-              },
-              child:
-                  Text(controller.isLoading.isFalse ? "LOGIN" : "LOADING..."),
+            SizedBox(height: 20),
+            TextField(
+              autocorrect: false,
+              obscureText: true,
+              controller: controller.passC,
+              decoration: InputDecoration(
+                labelText: "Password",
+                border: OutlineInputBorder(),
+              ),
             ),
-          ),
-          TextButton(
-              onPressed: () => Get.toNamed(Routes.FORGOT_PASSWORD),
-              child: Text("Lupa Password ?"))
-        ],
+            SizedBox(height: 30),
+            //karena memantau perubahan maka dibungkus obx
+            Obx(
+              () => ElevatedButton(
+                onPressed: () async {
+                  if (controller.isLoading.isFalse) {
+                    await controller.login();
+                  }
+                },
+                child:
+                    Text(controller.isLoading.isFalse ? "LOGIN" : "LOADING..."),
+              ),
+            ),
+            TextButton(
+                onPressed: () => Get.toNamed(Routes.FORGOT_PASSWORD),
+                child: Text("Lupa Password ?"))
+          ],
+        ),
       ),
     );
   }

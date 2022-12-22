@@ -54,6 +54,7 @@ class DetailSeminarController extends GetxController {
             "status": "hadir",
           });
           await pesertaC.doc(uidSeminar).set({
+            "name": nameC.text,
             "time": time.toString(),
             "date": date.toString(),
             "status": "hadir",
